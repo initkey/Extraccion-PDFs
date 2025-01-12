@@ -1,6 +1,7 @@
 import flet as ft
 from pyautogui import size
 from controllers.welcome_controller import WelcomeController
+from controllers.main_controller import MainController
 
 def main(page:ft.Page):
 
@@ -28,8 +29,8 @@ def main(page:ft.Page):
         
         #Limpiamos la pantalla y colocamos un ft.Text de prueba para posteriormente colocar un MainView
         page.clean()
-        main_controller = ft.Text(f"Saludos! {session.get_user_name()}")
-        page.add(main_controller)
+        main_controller = MainController(session)
+        page.add(main_controller.build())
 
     center_on_screen()
 
