@@ -18,9 +18,22 @@ def main(page:ft.Page):
         # Centramos la aplicación en la pantalla
         page.window.left = (screen_width - page.window.width) // 2
         page.window.top = (screen_height - page.window.height) // 2
+    
+    def start_app(session):
+        #Actualizamos el page para el tamaño correcto del main de la aplicación
+        page.window.width = 1024
+        page.window.height = 768
+        center_on_screen()
+        page.update()
+        
+        #Limpiamos la pantalla y colocamos un ft.Text de prueba para posteriormente colocar un MainView
+        page.clean()
+        main_controller = ft.Text(f"Saludos! {session.get_user_name()}")
+        page.add(main_controller)
+
     center_on_screen()
 
-    welcome_controller = WelcomeController(page)
+    welcome_controller = WelcomeController(page,start_app)
     page.add(welcome_controller.build())
 
 ft.app(target=main)
