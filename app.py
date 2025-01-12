@@ -1,5 +1,6 @@
 import flet as ft
 from pyautogui import size
+from controllers.welcome_controller import WelcomeController
 
 def main(page:ft.Page):
 
@@ -18,6 +19,8 @@ def main(page:ft.Page):
         page.window.left = (screen_width - page.window.width) // 2
         page.window.top = (screen_height - page.window.height) // 2
     center_on_screen()
-    page.add(ft.Text("Primera vista"))
+
+    welcome_controller = WelcomeController(page)
+    page.add(welcome_controller.build())
 
 ft.app(target=main)
