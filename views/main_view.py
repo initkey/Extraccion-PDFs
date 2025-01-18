@@ -1,13 +1,11 @@
 import flet as ft
+from controllers.panel_buttons_controller import PanelButtonsController
 
 class MainView:
 
     #Definimos el constructor
     def __init__(self):
-        self.load_button = ft.FilledButton("Cargar Archivos", width=200, height=40)
-        self.extract_button = ft.FilledButton("Extraer información", width=200, height=40)
-        self.change_button = ft.FilledButton("Cambiar Nombre/Ubicación", width=200, height=40)
-        self.save_button = ft.FilledButton("Guardar información", width=200, height=40)
+        self.panel_buttons = PanelButtonsController()
 
 
     def build(self,session):
@@ -18,18 +16,7 @@ class MainView:
                 ft.Row(
                     [
                         ft.Container(
-                            content = 
-                                ft.Column(
-                                    [
-                                        self.load_button,
-                                        self.extract_button,
-                                        self.change_button,
-                                        self.save_button
-                                    ],
-                                    spacing=30,
-                                    alignment=ft.MainAxisAlignment.CENTER,
-                                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
-                                ),
+                            content =self.panel_buttons.build(),
                             width=250,
                             height=350,
                             border=ft.border.all(1),
