@@ -4,8 +4,9 @@ from controllers.panel_buttons_controller import PanelButtonsController
 class MainView:
 
     #Definimos el constructor
-    def __init__(self):
-        self.panel_buttons = PanelButtonsController()
+    def __init__(self,page):
+        self.page = page
+        self.panel_buttons = PanelButtonsController(self.page)
 
 
     def build(self,session):
