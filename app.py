@@ -29,12 +29,12 @@ def main(page:ft.Page):
         
         #Limpiamos la pantalla y colocamos un ft.Text de prueba para posteriormente colocar un MainView
         page.clean()
-        main_controller = MainController(session)
+        main_controller = MainController(session,page)
         page.add(main_controller.build())
 
     center_on_screen()
 
-    welcome_controller = WelcomeController(page,start_app)
+    welcome_controller = WelcomeController(start_app)
     page.add(welcome_controller.build())
 
 ft.app(target=main)
