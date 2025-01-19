@@ -4,16 +4,12 @@ class PanelButtonsView:
 
     #Definimos el constructor
     def __init__(self):
-        self.button_load = None
-        self.button_extract = None
-        self.button_change = None
-        self.button_save = None
-
-    def create_panel_buttons(self):
         self.button_load = self.create_button("Cargar Documentos",ft.Icons.DOCUMENT_SCANNER)
         self.button_extract = self.create_button("Extraer Información", ft.Icons.PERM_DEVICE_INFORMATION_ROUNDED)
         self.button_change = self.create_button("Cambiar Nombre/Ubicación", ft.Icons.CHANGE_CIRCLE)
         self.button_save = self.create_button("Guardar Información",ft.Icons.SAVE_AS)
+
+    def create_panel_buttons(self):
         return ft.Column(
             [
                 self.button_load,
