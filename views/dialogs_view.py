@@ -22,7 +22,7 @@ class DialogsView:
         return ft.CupertinoActionSheet(
             title=ft.Row([ft.Text("Selección de documentos")],alignment=ft.MainAxisAlignment.START),
             message= ft.Row([ft.Text("Por favor, selecciona una de las siguientes opciones: ")],alignment=ft.MainAxisAlignment.CENTER),
-            cancel= ft.CupertinoActionSheetAction(content=ft.Text("Cancelar"), is_destructive_action=True, on_click=lambda _: print("Se presionó cancelar")),
+            cancel= ft.CupertinoActionSheetAction(content=ft.Text("Cancelar"), is_destructive_action=True, on_click=self.close_dialog),
             actions=[
                 ft.CupertinoActionSheetAction(
                     content=ft.Text("Seleccionar Carpeta"),
