@@ -38,7 +38,6 @@ class PanelButtonsView:
                 height=50,
                 padding=0,
                 icon=icon,
-                on_click= lambda _: print(f"Botón: {text} -> Presionado")
             )
     
     def build(self):
