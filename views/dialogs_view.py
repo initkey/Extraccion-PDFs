@@ -3,9 +3,20 @@ import flet as ft
 class DialogsView:
     
     #Definimos el constructor
-    def __init__(self):
+    def __init__(self,page):
+        self.page = page
         self.dialog_selection = ft.CupertinoBottomSheet()
         self.dialog_selection.content = self.create_dialog()
+
+    def show_dialog(self,e):
+        self.page.overlay.append(self.dialog_selection)
+        self.dialog_selection.open = True
+        self.page.update()
+    
+    def close_dialog(self,e):
+        self.dialog_selection.open = False
+        self.page.update()
+        self.page.overlay.remove(self.dialog_selection)
 
     def create_dialog(self):
         return ft.CupertinoActionSheet(
