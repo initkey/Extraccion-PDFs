@@ -4,10 +4,9 @@ from models.session_model import SessionModel
 class WelcomeController:
     
     #Definimos el constructor
-    def __init__(self,page,on_enter_callback):
+    def __init__(self,on_enter_callback):
         self.session = SessionModel()
         self.view = WelcomeView()
-        self.page = page
         self.on_enter_callback = on_enter_callback
 
         # Asignar evento al botón "Entrar"
