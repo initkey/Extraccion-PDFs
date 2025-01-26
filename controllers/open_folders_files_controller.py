@@ -1,5 +1,6 @@
 from views.open_folders_files import OpenFoldersFiles
 import asyncio
+import os
 
 class OpenFoldersFilesController:
 
@@ -20,7 +21,7 @@ class OpenFoldersFilesController:
     def pick_files_result(self, e):
         # Guardar los archivos seleccionados
         self.documents = [f.name for f in e.files] if e.files else []
-        directory_path = e.files[0].path.rsplit('/', 1)[0]
+        directory_path = os.path.dirname(e.files[0].path)
         self.data.set_documents_path(directory_path)
         self.data.set_list_documents(self.documents)
         print(f"Archivos guardados: {self.data.get_list_documents()}")
