@@ -1,13 +1,15 @@
 import flet as ft
 from controllers.panel_buttons_controller import PanelButtonsController
-
+from controllers.panel_selection_controller import PanelSelectionController
 class MainView:
 
     #Definimos el constructor
     def __init__(self,page,data):
         self.page = page
         self.data = data
-        self.panel_buttons = PanelButtonsController(self.page,self.data)
+        self.panel_selection = PanelSelectionController(self.page,self.data)
+        self.panel_buttons = PanelButtonsController(self.page,self.data,self.panel_selection)
+        
 
 
     def build(self,session):
@@ -25,6 +27,7 @@ class MainView:
                             border_radius=10
                         ),
                         ft.Container(
+                            content=self.panel_selection.build(),
                             width=700,
                             height=350,
                             border=ft.border.all(1),
