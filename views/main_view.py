@@ -8,9 +8,7 @@ class MainView:
         self.page = page
         self.data = data
         self.panel_selection = PanelSelectionController(self.page,self.data)
-        self.panel_buttons = PanelButtonsController(self.page,self.data,self.panel_selection)
-        
-
+        self.panel_buttons = PanelButtonsController(self.page,self.data,self.panel_selection) 
 
     def build(self,session):
         user_name = session.get_user_name()
