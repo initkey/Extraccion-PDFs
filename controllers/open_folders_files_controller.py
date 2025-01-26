@@ -1,4 +1,5 @@
 from views.open_folders_files import OpenFoldersFiles
+import asyncio
 
 class OpenFoldersFilesController:
 
@@ -8,8 +9,13 @@ class OpenFoldersFilesController:
         self.view = OpenFoldersFiles(self.page)
         self.data = data
 
-    def get_documents(self):
+    async def check_data(self):
+        while not self.data.get_list_documents():
+            await asyncio.sleep(1)
+
+    async def get_documents(self):
         self.view.pick_files_dialog.on_result = self.pick_files_result
+        await self.check_data()
     
     def pick_files_result(self, e):
         # Guardar los archivos seleccionados
