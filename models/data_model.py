@@ -4,6 +4,13 @@ class DataModel:
     def __init__(self):
         self.list_documents = []
         self.documents_selected = []
+        self.documents_path = ""
+
+    def set_documents_path(self,path):
+        self.documents_path = path
+
+    def get_documents_path(self):
+        return self.documents_path
 
     def set_documents_selected(self,documents):
         self.documents_selected = documents
