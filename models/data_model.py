@@ -1,5 +1,6 @@
 import os
 import itertools
+import pdfplumber
 class DataModel:
 
     #Creamos el constructor
@@ -7,6 +8,26 @@ class DataModel:
         self.list_documents = []
         self.documents_selected = []
         self.documents_path = ""
+
+    def get_raw_data(self,document):
+        
+        with pdfplumber.open(document) as pdf:
+            for page in pdf.pages:
+                try:
+                    yield document
+                    yield page.extract_tables()
+                    yield page.extract_text()
+                except Exception as e:
+                    print(f'Error {e}')
+
+    def get_preprocessed_data(self,documents):
+        #Verificamos con cuantos documentos vamos a trabajar, según sea el caso..
+        isTrue, documents = self.check_generator(documents)
+        if isTrue:
+            yield from self.get_raw_data(next(documents))
+        else:
+            for document in documents:
+                yield from self.get_raw_data(document)
 
     def check_generator(self,generator):
             #Creamos una copia de nuestro generador para poder trabajar con ella
