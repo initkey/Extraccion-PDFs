@@ -1,7 +1,7 @@
 import os
 import itertools
 import pdfplumber
-from re import search, IGNORECASE
+from re import search, IGNORECASE,sub
 class DataModel:
 
     #Creamos el constructor
@@ -10,6 +10,14 @@ class DataModel:
         self.documents_selected = []
         self.documents_path = ""
         self.names = self.extract_info("config.txt")
+
+    def get_improved_info(self,data):
+        remove_none = [info for info in data if info is not None]
+        try:
+            information_clear = [sub("\n"," ",info) for info in remove_none]
+        except Exception as e:
+            print(f"Error {e}")
+        return information_clear
 
     def get_match(self,tables,data_result,initial,info_extra):
         for data in tables:
@@ -24,8 +32,8 @@ class DataModel:
                     if empty_percentage < 70:
                         for index,info in enumerate(info_extra):
                             row.insert(index,info)
-                        #! Anexar código para mejorar la información recuperada.
-                        data_result.append(row)
+                        improved_row = self.get_improved_info(row)
+                        data_result.append(improved_row)
 
     def get_real_data(self,tables_doc):
         data_result = []
@@ -58,7 +66,8 @@ class DataModel:
                                     row.insert(0,name_document)
                                     row.insert(1,owner)
                                     row.insert(2,date)
-                                data_result.append(row)
+                                improved_row = self.get_improved_info(row)
+                                data_result.append(improved_row)
                     except Exception:
                         continue
             except StopIteration:
