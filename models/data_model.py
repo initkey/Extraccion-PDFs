@@ -1,3 +1,6 @@
+import os
+
+from re import search, IGNORECASE
 class DataModel:
 
     #Creamos el constructor
@@ -5,6 +8,12 @@ class DataModel:
         self.list_documents = []
         self.documents_selected = []
         self.documents_path = ""
+
+    def get_documents_with_path(self,path,documents):
+        for document in documents:
+            full_path = os.path.join(path,document)
+            normalized_full_path = os.path.normpath(full_path)
+            yield normalized_full_path   
 
     def set_documents_path(self,path):
         self.documents_path = path
