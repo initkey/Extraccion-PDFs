@@ -1,6 +1,4 @@
 import os
-
-from re import search, IGNORECASE
 class DataModel:
 
     #Creamos el constructor
