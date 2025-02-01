@@ -9,8 +9,34 @@ class DataModel:
         self.documents_selected = []
         self.documents_path = ""
 
-    def get_raw_data(self,document):
+    def check_document(self,generator):
+        try:
+            document_name = next(generator)
+            tables = next(generator)
+            text = next(generator)
+        except Exception as e:
+            print(f"Error en lectura {e}")
+        if text:
+            return document_name,tables,text
+        else:
+            return None,None,None
         
+
+
+    def get_real_data(self,data):
+        data_result = []
+        
+        while True:
+            document = list()
+            try:
+                document,tables,text = self.check_document(data)
+                
+            except StopIteration:
+                break
+        return data_result
+
+    def get_raw_data(self,document):
+        #Ingresamos a cada documento, guardamos el nombre del documento, las tablas y el texto general en un generador, si ocurre un error posteriormente en la exception agregaremos la función para informar del tema.
         with pdfplumber.open(document) as pdf:
             for page in pdf.pages:
                 try:
@@ -18,10 +44,11 @@ class DataModel:
                     yield page.extract_tables()
                     yield page.extract_text()
                 except Exception as e:
+                    #!Anexar función para recuperar la información en caso de error
                     print(f'Error {e}')
 
     def get_preprocessed_data(self,documents):
-        #Verificamos con cuantos documentos vamos a trabajar, según sea el caso..
+        #Verificamos con cuantos documentos vamos a trabajar, según sea el caso.. Llamaremos a una función que extraerá toda la información en bruto.
         isTrue, documents = self.check_generator(documents)
         if isTrue:
             yield from self.get_raw_data(next(documents))
