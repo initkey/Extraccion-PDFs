@@ -1,6 +1,7 @@
 import os
 import itertools
 import pdfplumber
+from re import search, IGNORECASE
 class DataModel:
 
     #Creamos el constructor
@@ -8,22 +9,19 @@ class DataModel:
         self.list_documents = []
         self.documents_selected = []
         self.documents_path = ""
+        self.names = self.extract_info("config.txt")
 
-    def get_real_data(self,data):
-        data_result = []  
-        while True:
-            document = list()
-            try:
-                name_document,tables,text = self.check_document(data)
-                if tables:
-                    owner_document = text
-                    page_document = tables
-                    names = self.extract_info("config.txt")
-                    print(f"Nombres: {names}")
-                break
-            except StopIteration:
-                break
-        return data_result
+    def check_pattern(self,value, data):
+        table_pattern = {
+            1 : r'Pág\. 1\/\d{1,2}|Pág\. 1\/',
+            2 : rf"Especialista\s+({'|'.join(self.names)})",
+            3 : r'Datos del Dispositivo',
+            4 : r'Observaciones.*Condiciones',
+            5 : r'Especialista(.*?)Fecha',
+            6 : r'Fecha:\s*(\d{1,2}/\d{1,2}/\d{2,4})'
+        }
+        pattern = table_pattern.get(value,r'Datos del Dispositivo')
+        return search(pattern,''.join(map(str,data)), IGNORECASE)
 
     def extract_info(self,txt):
         try:
@@ -39,19 +37,26 @@ class DataModel:
             print(f"Ocurrió un error: {e}")
         return []
 
-    def check_document(self,generator):
+    def check_document(self,data):
+        document = list()
+        name_document = None
+        tables = None
+        text = None
         try:
-            name_document = next(generator)
-        except StopIteration:
-            name_document = None
-        try:
-            tables = next(generator)
-        except StopIteration:
-            tables = None
-        try:
-            text = next(generator)
-        except StopIteration:
-            text = None
+            for _ in range(3):
+                    document.append(next(data))
+                    print(f"Data:{document}")
+            name_document = document[0]
+            tables = document[1]
+            text = document[2]
+            print("Nombres:")
+            print(name_document)
+            print("Tablas")
+            print(tables)
+            print("Textos:")
+            print(text)
+        except Exception as e:
+            print(f"Error inesperado: {e}")
         return name_document,tables,text
         
     def get_raw_data(self,document):
