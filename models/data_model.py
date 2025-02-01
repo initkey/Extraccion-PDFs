@@ -9,32 +9,51 @@ class DataModel:
         self.documents_selected = []
         self.documents_path = ""
 
-    def check_document(self,generator):
-        try:
-            document_name = next(generator)
-            tables = next(generator)
-            text = next(generator)
-        except Exception as e:
-            print(f"Error en lectura {e}")
-        if text:
-            return document_name,tables,text
-        else:
-            return None,None,None
-        
-
-
     def get_real_data(self,data):
-        data_result = []
-        
+        data_result = []  
         while True:
             document = list()
             try:
-                document,tables,text = self.check_document(data)
-                
+                name_document,tables,text = self.check_document(data)
+                if tables:
+                    owner_document = text
+                    page_document = tables
+                    names = self.extract_info("config.txt")
+                    print(f"Nombres: {names}")
+                break
             except StopIteration:
                 break
         return data_result
 
+    def extract_info(self,txt):
+        try:
+            with open(txt, 'r') as file:
+                for line in file:
+                    if line.startswith("Especialista:"):
+                        names_str = line.split(":",1)[1].strip()
+                        names = [name.strip() for name in names_str.split(",")]
+                return names
+        except FileNotFoundError:
+            print(f"El archivo {txt} no se encontró.")
+        except Exception as e:
+            print(f"Ocurrió un error: {e}")
+        return []
+
+    def check_document(self,generator):
+        try:
+            name_document = next(generator)
+        except StopIteration:
+            name_document = None
+        try:
+            tables = next(generator)
+        except StopIteration:
+            tables = None
+        try:
+            text = next(generator)
+        except StopIteration:
+            text = None
+        return name_document,tables,text
+        
     def get_raw_data(self,document):
         #Ingresamos a cada documento, guardamos el nombre del documento, las tablas y el texto general en un generador, si ocurre un error posteriormente en la exception agregaremos la función para informar del tema.
         with pdfplumber.open(document) as pdf:
