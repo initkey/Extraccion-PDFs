@@ -40,3 +40,4 @@ build/
 # Otros archivos temporales o ocultos
 .DS_Store
 Thumbs.db
+config.txt
