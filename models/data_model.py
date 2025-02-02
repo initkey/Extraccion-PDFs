@@ -11,12 +11,23 @@ class DataModel:
         self.documents_path = ""
         self.names = self.extract_info("config.txt")
 
+    def filter_invalid_information(self,list,data_result,info_extra):
+        for row in list:
+            empty_count = sum(1 for item in row if item == "" or item is None or item == [""])
+            empty_percentage = (empty_count/len(row)) * 100
+            threshold = 70
+            if empty_percentage < threshold:
+                for index,extra in enumerate(info_extra):
+                    row.insert(index,extra)
+                improved_row = self.get_improved_info(row)
+                data_result.append(improved_row)
+
     def get_improved_info(self,data):
         remove_none = [info for info in data if info is not None]
         try:
-            information_clear = [sub("\n"," ",info) for info in remove_none]
+            information_clear = [sub("\n"," ",info) if type(info) == str else info for info in remove_none]
         except Exception as e:
-            print(f"Error {e}")
+            print(f"Error al limpiar datos: {e}")
         return information_clear
 
     def get_match(self,tables,data_result,initial,info_extra):
@@ -25,15 +36,7 @@ class DataModel:
             if pattern_match:
                 size = len(data)
                 info = [data[index] for index in range(initial,size)]
-                for row in info:
-                    empty_count = sum(1 for item in row if item == "" or item is None)
-                    empty_percentage = (empty_count/len(row)) * 100
-                    threshold = 70
-                    if empty_percentage < 70:
-                        for index,info in enumerate(info_extra):
-                            row.insert(index,info)
-                        improved_row = self.get_improved_info(row)
-                        data_result.append(improved_row)
+                self.filter_invalid_information(info,data_result,info_extra)
 
     def get_real_data(self,tables_doc):
         data_result = []
@@ -44,10 +47,9 @@ class DataModel:
             try:
                 for _ in range(3):
                     document.append(next(tables_doc))
-                name_document = document[0]
+                name_document = document[0].replace("\\", "/")
                 tables = document[1]
                 text_doc = document[2]
-                print(name_document)
                 if tables:
                     owner = self.check_pattern(5,text_doc).group(1).strip() if self.check_pattern(5,text_doc) else "No encontrado"
                     date = self.check_pattern(6,text_doc).group(1).strip() if self.check_pattern(6,text_doc) else "Sin fecha"
@@ -62,12 +64,7 @@ class DataModel:
                         else:
                             pattern_word_match = self.check_pattern(4,tables)
                             if not (pattern_word_match and tables):
-                                for row in tables:
-                                    row.insert(0,name_document)
-                                    row.insert(1,owner)
-                                    row.insert(2,date)
-                                improved_row = self.get_improved_info(row)
-                                data_result.append(improved_row)
+                                self.filter_invalid_information(tables,data_result,info_extra)
                     except Exception:
                         continue
             except StopIteration:
@@ -125,7 +122,7 @@ class DataModel:
                     yield page.extract_text()
                 except Exception as e:
                     #!Anexar función para recuperar la información en caso de error
-                    print(f'Error {e}')
+                    print(f'Error: {e} - {document}')
 
     def get_preprocessed_data(self,documents):
         #Verificamos con cuantos documentos vamos a trabajar, según sea el caso.. Llamaremos a una función que extraerá toda la información en bruto.
