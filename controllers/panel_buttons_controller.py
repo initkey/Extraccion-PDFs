@@ -9,7 +9,7 @@ class PanelButtonsController:
         self.data = data
         self.selection = selection
         self.view = PanelButtonsView()
-        self.view_dialog = DialogsController(self.page,self.data,selection)
+        self.view_dialog = DialogsController(self.page,self.data,selection,self.view)
         self.view.button_load.on_click = self.on_click_load
         self.view.button_extract.on_click = self.on_click_extract
 
