@@ -54,9 +54,9 @@ class PanelSelectionView:
     def create_chip(self,name):
         return ft.Container(
             content=ft.Chip(
-                label=ft.Text(name,size=12,max_lines=2,overflow=ft.TextOverflow.ELLIPSIS),
+                label=ft.Text(name,size=11,max_lines=2,overflow=ft.TextOverflow.ELLIPSIS),
                 on_select=self.chip_selected,
-                # height=100,
+                height=90,
                 padding=ft.padding.all(1)
             ),
             border_radius=10,
@@ -69,7 +69,7 @@ class PanelSelectionView:
             width=690,
             height=350,
             max_extent=340,
-            child_aspect_ratio=9,
+            child_aspect_ratio=10,
             spacing=5,
             run_spacing=5,
             padding=5
