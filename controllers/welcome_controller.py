@@ -10,7 +10,7 @@ class WelcomeController:
         self.on_enter_callback = on_enter_callback
 
         # Asignar evento al botón "Entrar"
-        self.view.enter_button.on_click = self.handle_enter
+        self.view.name_input.on_submit = self.handle_enter
 
     def handle_enter(self, e):
         user_name = self.view.name_input.value.strip()
