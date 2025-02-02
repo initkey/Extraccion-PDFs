@@ -16,13 +16,14 @@ class PanelButtonsController:
     def on_click_extract(self,e):
         container = [doc for doc in self.selection.view.grid_selection.controls]
         self.data.set_documents_selected([doc.content.label.value for doc in container])
-        print(f"Ruta: {self.data.get_documents_path()}")
-        for document in self.data.get_documents_selected():
-            print(document)
+        documents = self.data.get_documents_selected()
+        path = self.data.get_documents_path()
+        list_documents = self.data.get_documents_with_path(path,documents)
+        tables = self.data.get_preprocessed_data(list_documents)
+        information = self.data.get_real_data(tables)
 
     def on_click_load(self,e):
         self.view_dialog.build(e)
-        # self.selection.load_data()
 
     def build(self):
         return self.view.build()
