@@ -26,6 +26,7 @@ class PanelSelectionView:
                 height=40,
                 padding=0,
                 icon=icon,
+                disabled=True
             )
 
     def create_select_all(self):
@@ -80,7 +81,8 @@ class PanelSelectionView:
         for document in documents:
             self.grid_selection.controls.append(self.create_chip(document))
         self.grid_selection.update()
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
+        self.page.update()
 
     def build(self):
         return self.create_panel_selection()
