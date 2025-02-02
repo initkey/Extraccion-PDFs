@@ -12,7 +12,7 @@ class OpenFoldersFilesController:
 
     async def check_data(self):
         while not self.data.get_list_documents():
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.5)
 
     async def get_documents(self):
         self.view.pick_files_dialog.on_result = self.pick_files_result
