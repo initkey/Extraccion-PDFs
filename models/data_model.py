@@ -165,7 +165,9 @@ class DataModel:
         return self.documents_selected
 
     def set_list_documents(self,documents):
-        self.list_documents = documents
+        for document in documents:
+            if document.endswith("pdf"):
+                self.list_documents.append(document)
     
     def get_list_documents(self):
         return self.list_documents
