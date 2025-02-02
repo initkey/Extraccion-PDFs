@@ -32,7 +32,9 @@ class PanelSelectionController:
             
     
     async def load_data(self):
+        self.view.button_select.disabled = False
         await self.view.refresh_grid()
+        self.page.update()
         self.data.set_list_documents([])
 
     def build(self):
