@@ -57,7 +57,10 @@ class DataModel:
                     try:
                         pattern_match_page = self.check_pattern(1,tables)
                         pattern_owner_match = self.check_pattern(2,text_doc)
+                        pattern_new_version = self.check_pattern(7,text_doc)
                         if pattern_match_page:
+                            self.get_match(tables,data_result,3,info_extra)
+                        elif pattern_new_version:
                             self.get_match(tables,data_result,3,info_extra)
                         elif pattern_owner_match:
                             self.get_match(tables,data_result,2,info_extra)
@@ -78,7 +81,8 @@ class DataModel:
             3 : r'Datos del Dispositivo',
             4 : r'Observaciones.*Condiciones',
             5 : r'Especialista(.*?)Fecha',
-            6 : r'Fecha:\s*(\d{1,2}/\d{1,2}/\d{2,4})'
+            6 : r'Fecha:\s*(\d{1,2}/\d{1,2}/\d{2,4})',
+            7 : r'Especialista que'
         }
         pattern = table_pattern.get(value,r'Datos del Dispositivo')
         return search(pattern,''.join(map(str,data)), IGNORECASE)
