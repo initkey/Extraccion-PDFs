@@ -1,6 +1,6 @@
 from views.panels.panel_buttons_view import PanelButtonsView
 from controllers.dialogs_controller import DialogsController
-import pandas as pd
+from controllers.save_file_controller import SaveFileController
 
 class PanelButtonsController:
     
@@ -15,11 +15,11 @@ class PanelButtonsController:
         self.view.button_extract.on_click = self.on_click_extract
         self.information = None
         self.view.button_save.on_click = self.on_click_save
+        self.view_save = SaveFileController(page,data)
 
     def on_click_save(self,e):
-        df = pd.DataFrame(self.information)
-        df.to_excel("Resultado.xlsx")
-        print("Se ha creado el archivo Resultado")
+        self.data.set_information(self.information)
+        self.view_save.build(e)
 
     def on_click_extract(self,e):
         container = [doc for doc in self.selection.view.grid_selection.controls]
