@@ -2,6 +2,7 @@ import os
 import itertools
 import pdfplumber
 from re import search, IGNORECASE,sub
+import pandas as pd
 class DataModel:
 
     #Creamos el constructor
@@ -10,6 +11,35 @@ class DataModel:
         self.documents_selected = []
         self.documents_path = ""
         self.names = self.extract_info("config.txt")
+        self.file_path = ""
+        self.information = None
+
+    def set_information(self, information):
+        self.information = information
+
+    def get_information(self):
+        return self.information
+
+    def get_file_path(self):
+        return self.file_path
+
+    def set_file_path(self,path):
+        self.file_path = path
+
+    def save_dataframe_to_excel(self):
+        if not self.file_path:
+            return False
+        try:
+            df = pd.DataFrame(self.get_information())
+            if not self.file_path.lower().endswith(".xlsx"):
+                self.file_path += ".xlsx"
+            df.to_excel(self.file_path, index=False)
+            #! Agregar código para mandar un mensaje de alerta de Documento guardado correctamente.
+            return True
+        except Exception as e:
+            print(f"Erro al guardar el archivo {e}")
+            return False
+
 
     def filter_invalid_information(self,list,data_result,info_extra):
         for row in list:
