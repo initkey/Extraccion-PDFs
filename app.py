@@ -2,6 +2,7 @@ import flet as ft
 from pyautogui import size
 from controllers.welcome_controller import WelcomeController
 from controllers.main_controller import MainController
+from models.session_model import SessionModel
 
 def main(page:ft.Page):
 
@@ -12,6 +13,8 @@ def main(page:ft.Page):
     page.window.resizable = False
     page.window.maximizable = False
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
+
+    session = SessionModel()
 
     def center_on_screen():
         # Obtener las dimensiones de la pantalla con la librería pyautogui
@@ -34,7 +37,10 @@ def main(page:ft.Page):
 
     center_on_screen()
 
-    welcome_controller = WelcomeController(start_app)
-    page.add(welcome_controller.build())
+    if session.get_name():
+        start_app(session)
+    else:
+        welcome_controller = WelcomeController(start_app)
+        page.add(welcome_controller.build())
 
 ft.app(target=main)
