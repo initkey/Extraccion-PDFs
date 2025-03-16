@@ -17,6 +17,7 @@ class WelcomeView:
                 text_style=ft.TextStyle(size=30,weight="Bold"),
                 border=ft.InputBorder.UNDERLINE,
                 filled=True,
+                autofocus=True
             )
 
     def build(self):
