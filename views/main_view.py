@@ -11,7 +11,7 @@ class MainView:
         self.panel_buttons = PanelButtonsController(self.page,self.data,self.panel_selection) 
 
     def build(self,session):
-        user_name = session.get_user_name()
+        user_name = session.get_name()
         connection_date = session.get_connection_date()
         return ft.Column(
             [
