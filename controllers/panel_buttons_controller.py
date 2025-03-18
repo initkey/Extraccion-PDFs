@@ -6,6 +6,8 @@ from flet import SnackBar,Text
 """
 
     Es necesario mover el SnackBar a una vista para que sea correcto el modelo MVC
+    Crear un SnackBar general que reciba un texto y mande la información... ya hay 2
+    vistas incrustadas que debemos corregir
 
 """
 
@@ -22,7 +24,9 @@ class PanelButtonsController:
         self.view.button_extract.on_click = self.on_click_extract
         self.information = None
         self.view.button_save.on_click = self.on_click_save
-        self.view_save = SaveFileController(page,data)
+        #! Debemos corregir este anexo con una vista
+        file_save = SnackBar(Text("Archivo guardado correctamente"))
+        self.view_save = SaveFileController(page,data,file_save)
 
     def on_click_save(self,e):
         self.data.set_information(self.information)
