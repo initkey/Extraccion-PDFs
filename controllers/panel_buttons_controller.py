@@ -1,6 +1,13 @@
 from views.panels.panel_buttons_view import PanelButtonsView
 from controllers.dialogs_controller import DialogsController
 from controllers.save_file_controller import SaveFileController
+from flet import SnackBar,Text
+
+"""
+
+    Es necesario mover el SnackBar a una vista para que sea correcto el modelo MVC
+
+"""
 
 class PanelButtonsController:
     
@@ -22,16 +29,20 @@ class PanelButtonsController:
         self.view_save.build(e)
 
     def on_click_extract(self,e):
-        container = [doc for doc in self.selection.view.grid_selection.controls]
-        self.data.set_documents_selected([doc.content.label.value for doc in container])
-        documents = self.data.get_documents_selected()
-        path = self.data.get_documents_path()
-        list_documents = self.data.get_documents_with_path(path,documents)
-        tables = self.data.get_preprocessed_data(list_documents)
-        self.information = self.data.get_real_data(tables)
-        self.view.button_save.disabled = False
-        self.view.button_extract.disabled = True
-        self.page.update()
+        documents_selected = self.selection.get_chip_selected()
+        if documents_selected[1]:
+            self.page.open(SnackBar(Text(f"Información extraída de {documents_selected[0]} documentos") if documents_selected[0] > 2 else Text(f"Información extraída de {documents_selected[0]} documento")))
+            self.data.set_documents_selected(documents_selected[1])
+            documents = self.data.get_documents_selected()
+            path = self.data.get_documents_path()
+            list_documents = self.data.get_documents_with_path(path,documents)
+            tables = self.data.get_preprocessed_data(list_documents)
+            self.information = self.data.get_real_data(tables)
+            self.view.button_save.disabled = False
+            self.view.button_extract.disabled = True
+            self.page.update()
+        else:
+            self.page.open(SnackBar(Text(f"No ha seleccionado ningún documento")))
 
     def on_click_load(self,e):
         self.view_dialog.build(e)
