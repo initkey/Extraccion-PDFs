@@ -34,7 +34,6 @@ class DataModel:
             if not self.file_path.lower().endswith(".xlsx"):
                 self.file_path += ".xlsx"
             df.to_excel(self.file_path, index=False)
-            #! Agregar código para mandar un mensaje de alerta de Documento guardado correctamente.
             return True
         except Exception as e:
             print(f"Erro al guardar el archivo {e}")
