@@ -2,10 +2,11 @@ from models.data_model import DataModel
 from views.save_file_view import SaveFileView
 
 class SaveFileController:
-    def __init__(self,page,data):
+    def __init__(self,page,data,snackbar_save):
         self.page = page
         self.data = data
         self.view = SaveFileView(page)
+        self.snackbar = snackbar_save
 
     def build(self, e):
         self.view.build()
@@ -18,4 +19,6 @@ class SaveFileController:
         if e.path:
             self.data.set_file_path(e.path)
             # Guardar el DataFrame en Excel
-            self.data.save_dataframe_to_excel()
+            created = self.data.save_dataframe_to_excel()
+            if created:
+                self.page.open(self.snackbar)
