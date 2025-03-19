@@ -1,4 +1,4 @@
-from datetime import datetime
+import time
 import json
 class SessionModel:
     
@@ -7,7 +7,7 @@ class SessionModel:
         self.user_name = None
     
     def get_connection_date(self):
-        return datetime.now().strftime(f"%d/%m/%Y %I:%M:%S %p")
+        return time.strftime(f"%d/%m/%Y %I:%M:%S %p", time.localtime())
     
     # Definición de la función que modifica la palabra y le da formato
     def format_name(self,name):
