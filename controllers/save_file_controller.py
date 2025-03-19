@@ -2,11 +2,13 @@ from models.data_model import DataModel
 from views.save_file_view import SaveFileView
 
 class SaveFileController:
-    def __init__(self,page,data,snackbar_save):
+    def __init__(self,page,data,snackbar_save,view_buttons,view_selection):
         self.page = page
         self.data = data
         self.view = SaveFileView(page)
         self.snackbar = snackbar_save
+        self.view_buttons = view_buttons
+        self.view_selection = view_selection
 
     def build(self, e):
         self.view.build()
@@ -22,3 +24,10 @@ class SaveFileController:
             created = self.data.save_dataframe_to_excel()
             if created:
                 self.page.open(self.snackbar)
+                #! Crear función que limpie controles
+                self.data.list_documents = []
+                self.view_buttons.button_save.disabled = True
+                self.view_buttons.button_load.disabled = False
+                self.view_selection.view.grid_selection.controls.clear()
+                self.view_selection.update_text_button()
+                self.page.update()
