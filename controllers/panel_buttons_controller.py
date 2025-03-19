@@ -26,7 +26,7 @@ class PanelButtonsController:
         self.view.button_save.on_click = self.on_click_save
         #! Debemos corregir este anexo con una vista
         file_save = SnackBar(Text("Archivo guardado correctamente"))
-        self.view_save = SaveFileController(page,data,file_save)
+        self.view_save = SaveFileController(page,data,file_save,self.view,self.selection)
 
     def on_click_save(self,e):
         self.data.set_information(self.information)
