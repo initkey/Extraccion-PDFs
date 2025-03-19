@@ -13,6 +13,7 @@ def main(page:ft.Page):
     page.window.resizable = False
     page.window.maximizable = False
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.theme_mode = ft.ThemeMode.DARK
 
     session = SessionModel()
 
