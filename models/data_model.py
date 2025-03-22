@@ -67,6 +67,12 @@ class DataModel:
                 info = [data[index] for index in range(initial,size)]
                 self.filter_invalid_information(info,data_result,info_extra)
 
+    def check_owner(self,owner):
+        if owner.strip().startswith("que"):
+            owner = owner.removeprefix("que")
+            owner = owner.strip()
+        return owner
+    
     def get_real_data(self,tables_doc):
         data_result = []
         owner = ""
@@ -82,7 +88,7 @@ class DataModel:
                 if tables:
                     owner = self.check_pattern(5,text_doc).group(1).strip() if self.check_pattern(5,text_doc) else "No encontrado"
                     date = self.check_pattern(6,text_doc).group(1).strip() if self.check_pattern(6,text_doc) else "Sin fecha"
-                    info_extra = [name_document,owner,date]
+                    info_extra = [name_document,self.check_owner(owner),date]
                     try:
                         pattern_match_page = self.check_pattern(1,tables)
                         pattern_owner_match = self.check_pattern(2,text_doc)
