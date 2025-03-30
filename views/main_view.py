@@ -1,18 +1,19 @@
 import flet as ft
 from controllers.panel_buttons_controller import PanelButtonsController
 from controllers.panel_selection_controller import PanelSelectionController
+from controllers.panel_information_controller import PanelInformationController
 class MainView:
 
     #Definimos el constructor
-    def __init__(self,page,data):
+    def __init__(self,page,data,session):
         self.page = page
         self.data = data
+        self.session = session
         self.panel_selection = PanelSelectionController(self.page,self.data)
-        self.panel_buttons = PanelButtonsController(self.page,self.data,self.panel_selection) 
+        self.panel_buttons = PanelButtonsController(self.page,self.data,self.panel_selection)
+        self.panel_information = PanelInformationController(self.session)
 
-    def build(self,session):
-        user_name = session.get_name()
-        connection_date = session.get_connection_date()
+    def build(self):
         return ft.Column(
             [
                 ft.Row(
@@ -49,7 +50,7 @@ class MainView:
                 ft.Row(
                     [
                         ft.Container(
-                            content = ft.Text(f"Buenos días, {user_name} - Última de conexión: {connection_date}", text_align= ft.TextAlign.CENTER, size=20),
+                            content = self.panel_information.build(),
                             width=960,
                             height=70,
                             border=ft.border.all(1),
