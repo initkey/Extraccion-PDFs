@@ -38,7 +38,7 @@ def main(page:ft.Page):
 
     center_on_screen()
 
-    if session.get_name():
+    if session.username:
         start_app(session)
     else:
         welcome_controller = WelcomeController(start_app)
