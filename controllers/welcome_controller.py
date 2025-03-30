@@ -13,10 +13,10 @@ class WelcomeController:
         self.view.name_input.on_submit = self.handle_enter
 
     def handle_enter(self, e):
-        user_name = self.session.format_name(self.view.name_input.value)
-        if user_name:
+        username = self.session.format_name(str(self.view.name_input.value))
+        if username:
             # self.session.set_user_name(user_name)
-            self.session.set_name(user_name)
+            self.session.username = username
             self.on_enter_callback(self.session)
     
     def build(self):
